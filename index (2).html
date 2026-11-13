@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUARASA FEST 2026 | Bersuara untuk Sesama</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans & Space Grotesk untuk nuansa digital broadcast modern -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        display: ['"Space Grotesk"', 'sans-serif'],
+                    },
+                    colors: {
+                        broadcast: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            primary: '#0284c7',   // Sky Blue cerah ala OTT / Digital TV
+                            primaryDark: '#0369a1',
+                            accent: '#2563eb',    // Royal Blue dinamis
+                            live: '#e11d48',      // Merah aksen siaran / streaming
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        .fade-in {
+            animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Scrollbar rapi untuk pratinjau dokumen Naskah & Storyboard */
+        .doc-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .doc-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+        .doc-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
+        .doc-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-sky-600 selection:text-white">
+
+    <!-- ==================== HEADER / NAVIGASI PLATFORM STREAMING ==================== -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/90 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <!-- Logo Acara -->
+            <button onclick="navigateTo('home')" class="flex items-center gap-3 text-left group focus:outline-none">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-sky-500 to-cyan-400 flex items-center justify-center text-white font-display font-bold shadow-md shadow-sky-500/25 group-hover:scale-105 transition-transform">
+                    <i data-lucide="tv" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="font-display font-bold tracking-tight text-slate-900 text-base sm:text-lg leading-none">SUARASA</span>
+                        <span class="px-1.5 py-0.5 rounded bg-sky-600 text-white font-display font-bold text-[10px] tracking-wider uppercase">TV 2026</span>
+                    </div>
+                    <span class="text-[11px] font-medium text-slate-500 block mt-0.5">Digital ILM Showcase</span>
+                </div>
+            </button>
+
+            <!-- Menu Navigasi Desktop & Mobile -->
+            <nav class="flex items-center gap-1 sm:gap-3 text-xs sm:text-sm font-semibold">
+                <button onclick="navigateTo('home')" id="nav-home" class="px-3 py-2 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition-colors">
+                    Beranda
+                </button>
+                <button onclick="scrollToGallery()" id="nav-gallery" class="px-3 py-2 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition-colors">
+                    Galeri Karya
+                </button>
+                <button onclick="scrollToArchive()" id="nav-archive" class="px-3 py-2 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition-colors">
+                    Arsip & SOP
+                </button>
+                <button onclick="navigateTo('about')" id="nav-about" class="px-3 py-2 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition-colors">
+                    Tentang
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==================== KONTEN UTAMA (DINAMIS) ==================== -->
+    <main id="app-content" class="flex-grow">
+        <!-- Konten akan dirender oleh JavaScript berdasarkan state halaman -->
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="border-t border-slate-200 bg-white mt-16 py-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+                <span>&copy; 2026 <strong class="text-slate-800">SUARASA FEST</strong>. Platform Galeri Digital Iklan Layanan Masyarakat.</span>
+            </div>
+            <p class="font-medium text-slate-600">Tema: “Bersuara untuk Sesama”</p>
+        </div>
+    </footer>
+
+    <!-- ==================== MODAL BACA NASKAH LENGKAP ==================== -->
+    <div id="script-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white border border-slate-200 rounded-2xl max-w-3xl w-full max-h-[88vh] flex flex-col shadow-2xl fade-in">
+            <div class="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50 rounded-t-2xl">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-sky-600" id="modal-team-name">NAMA TIM</span>
+                    <h3 class="font-display font-bold text-lg text-slate-900" id="modal-script-title">Judul Naskah ILM</h3>
+                </div>
+                <button onclick="closeScriptModal()" class="p-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="p-6 sm:p-8 overflow-y-auto doc-scroll text-sm sm:text-base text-slate-800 leading-relaxed whitespace-pre-line font-mono bg-white" id="modal-script-body">
+                <!-- Isi naskah lengkap -->
+            </div>
+            <div class="p-4 border-t border-slate-200 flex items-center justify-between bg-slate-50 rounded-b-2xl">
+                <span class="text-xs text-slate-500">Dokumen Digital Naskah ILM</span>
+                <div class="flex gap-2">
+                    <a id="modal-doc-link" href="#" target="_blank" class="px-4 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs sm:text-sm font-semibold flex items-center gap-2 transition-colors">
+                        <i data-lucide="external-link" class="w-4 h-4 text-sky-600"></i> Buka File Eksternal
+                    </a>
+                    <button onclick="closeScriptModal()" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs sm:text-sm font-semibold transition-colors">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== NOTIFIKASI TOAST (PENGGANTI ALERT) ==================== -->
+    <div id="toast-box" class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 text-sm fade-in">
+        <i data-lucide="info" class="w-5 h-5 text-sky-400 shrink-0"></i>
+        <span id="toast-message">Pesan informasi</span>
+    </div>
+
+    <!-- ==================== DATA & LOGIKA APLIKASI ==================== -->
+    <script>
+        /**
+         * ============================================================================
+         * DATA ARSIP DOKUMEN RESMI (SOP, PANDUAN MENTORING, RUBRIK PENILAIAN)
+         * ============================================================================
+         * Pengelola dapat mengganti `embedUrl` dengan link Google Drive (/preview)
+         * atau file PDF agar langsung tampil di kotak pratinjau scroll.
+         */
+        const ARCHIVE_DOCS = [
+            {
+                id: "sop-lomba",
+                code: "DOC-01",
+                title: "SOP Lomba ILM",
+                subtitle: "Standar Operasional Prosedur & Ketentuan Teknis",
+                updated: "Edisi 2026",
+                badgeColor: "sky",
+                icon: "folder-check",
+                embedUrl: "", // Contoh Google Drive: https://drive.google.com/file/d/ID_FILE/preview
+                externalUrl: "#",
+                content: `STANDAR OPERASIONAL PROSEDUR (SOP) LOMBA ILM\nSUARASA FEST 2026 — “BERSUARA UNTUK SESAMA”\n\n============================================================\n\n1. KETENTUAN UMUM PESERTA\n• Peserta merupakan tim yang terdaftar resmi dalam kegiatan SUARASA FEST 2026 (7 Tim Produksi).\n• Karya Iklan Layanan Masyarakat (ILM) harus orisinal, belum pernah dipublikasikan untuk lomba lain, dan tidak melanggar hak cipta (audio, visual, maupun grafis).\n\n2. SPESIFIKASI TEKNIS VIDEO\n• Durasi karya video ILM: 2 hingga 4 menit (termasuk bumper pembuka dan credit title).\n• Resolusi minimal Full HD (1920 x 1080 piksel) dengan rasio aspek 16:9 (Landscape).\n• Format berkas akhir: MP4 (H.264) dengan kualitas audio jernih.\n\n3. KELENGKAPAN DOKUMEN PRODUKSI\n• Naskah Skenario ILM lengkap dalam format dokumen digital (PDF).\n• Dokumen Storyboard visual seluruh adegan dalam format PDF.\n• Unggahan publikasi karya pada platform Instagram sesuai jadwal tayang yang ditetapkan panitia.\n\n4. ETIKA & KEPATUHAN KONTEN\n• Karya dilarang mengandung unsur SARA, ujaran kebencian, kekerasan eksplisit, maupun promosi produk komersial tertentu.`
+            },
+            {
+                id: "panduan-mentoring",
+                code: "DOC-02",
+                title: "Panduan Mentoring",
+                subtitle: "Alur Pendampingan Pra-Produksi hingga Pasca-Produksi",
+                updated: "Edisi 2026",
+                badgeColor: "blue",
+                icon: "folder-heart",
+                embedUrl: "", // Contoh Google Drive: https://drive.google.com/file/d/ID_FILE/preview
+                externalUrl: "#",
+                content: `PANDUAN MENTORING PRODUKSI ILM\nSUARASA FEST 2026 — “BERSUARA UNTUK SESAMA”\n\n============================================================\n\n1. TUJUAN MENTORING\n• Membantu setiap tim mempertajam pesan sosial agar relevan, empatik, dan mudah dipahami masyarakat.\n• Memastikan kesesuaian antara konsep naskah, perencanaan visual (storyboard), dan eksekusi lapangan.\n\n2. TAHAPAN SESI PENDAMPINGAN\n• Sesi 1 — Bedah Ide & Naskah:\n  Konsultasi premis cerita, kekuatan pesan utama (call to action), dan struktur dramatik skenario.\n• Sesi 2 — Review Storyboard & Teknis Syuting:\n  Evaluasi komposisi shot, pencahayaan, tata suara, serta manajemen waktu produksi.\n• Sesi 3 — Evaluasi Rough Cut (Pasca-Produksi):\n  Masukan terkait ritme penyuntingan (editing), color grading, dan kejelasan informasi penutup.\n\n3. TATA TERTIB MENTORING\n• Setiap tim wajib membawa draf naskah atau progres terbaru saat sesi konsultasi.\n• Catatan revisi dari mentor didokumentasikan sebagai acuan penyempurnaan karya final.`
+            },
+            {
+                id: "rubrik-penilaian",
+                code: "DOC-03",
+                title: "Sistem & Rubrik Penilaian",
+                subtitle: "Kriteria Evaluasi Dewan Juri & Bobot Skor",
+                updated: "Edisi 2026",
+                badgeColor: "indigo",
+                icon: "folder-kanban",
+                embedUrl: "", // Contoh Google Drive: https://drive.google.com/file/d/ID_FILE/preview
+                externalUrl: "#",
+                content: `SISTEM & RUBRIK PENILAIAN KARYA ILM\nSUARASA FEST 2026 — “BERSUARA UNTUK SESAMA”\n\n============================================================\n\n1. KOMPONEN & BOBOT PENILAIAN\n• Kesesuaian Tema & Kedalaman Pesan Sosial (35%)\n  Ketajaman gagasan “Bersuara untuk Sesama”, relevansi isu, dan daya gugah empati penonton.\n• Kreativitas & Penyutradaraan / Storytelling (25%)\n  Orisinalitas pendekatan cerita, alur penyampaian, dan penyutradaraan adegan.\n• Kualitas Teknis Audiovisual (25%)\n  Sinematografi, komposisi gambar, pencahayaan, kejernihan audio, dan teknik editing.\n• Kelengkapan Dokumen Produksi (15%)\n  Kesesuaian dan kerapian Naskah serta Storyboard (PDF) dengan hasil akhir video.\n\n2. SKALA PENILAIAN JURI\n• 90 – 100 : Sangat Baik (Pesan sangat kuat, eksekusi sinematik matang, dokumen lengkap)\n• 80 – 89  : Baik (Pesan jelas dan komunikatif, teknis audiovisual rapi)\n• 70 – 79  : Cukup (Pesan tersampaikan namun perlu penguatan alur/teknis)\n\n3. KEPUTUSAN DEWAN JURI\n• Penilaian dilakukan secara objektif berdasarkan rubrik baku dan bersifat mutlak.`
+            }
+        ];
+
+        const TEAMS_DATA = [
+            {
+                id: "the-boys",
+                number: "01",
+                name: "THE BOYS",
+                title: "Suara di Balik Layar",
+                duration: "03:15",
+                category: "Literasi Digital",
+                members: ["Anggota 1", "Anggota 2", "Anggota 3", "Anggota 4"],
+                thumbnail: "https://placehold.co/800x450/0284c7/ffffff?text=01.+THE+BOYS+-+Suara+di+Balik+Layar",
+                videoEmbedUrl: "",
+                videoExternalUrl: "#",
+                synopsis: "Mengangkat realitas perundungan siber (cyberbullying) di kalangan remaja dan mengajak penonton untuk lebih bijak serta berempati saat menggunakan media sosial.",
+                scriptDocEmbedUrl: "", // Isi link /preview Google Drive PDF/Docs untuk tampilan embed file langsung
+                scriptDocUrl: "#",
+                scriptFull: `JUDUL KARYA : SUARA DI BALIK LAYAR\nTIM PRODUKSI : THE BOYS\nDURASI       : ± 3 MENIT\n\n============================================================\n\nSCENE 1 - INT. KAMAR TIDUR - MALAM\nCahaya layar ponsel menerangi wajah RAKA (17) yang duduk di sudut kasur. Suara denting notifikasi terdengar bertubi-tubi, semakin lama semakin cepat dan memekakkan telinga.\n\nNARATOR (V.O.)\n"Satu ketikan jari mungkin terasa ringan bagimu. Tapi bagi orang lain, itu bisa menjadi beban yang tak terlihat."\n\nSCENE 2 - EXT. HALAMAN SEKOLAH - PAGI\nRaka berjalan menunduk melewati koridor sekolah yang ramai. Tatapan siswa lain terasa mengintimidasi.\n\nSeorang teman, DIMAS (17), mendekat dan menepuk bahunya dengan hangat, menawarkan dukungan nyata.\n\nDIMAS\n"Nggak usah dipikirin sendirian, Rak. Kami ada di pihakmu."\n\nSCENE 3 - INT. RUANG KELAS - SIANG\nKamera menyorot layar ponsel yang perlahan meredup, digantikan dengan interaksi nyata antar siswa yang saling tersenyum.\n\nSUPER TEXT:\nBERSUARA UNTUK SESAMA. HENTIKAN PERUNDUNGAN DIGITAL.`,
+                storyboardPdfEmbedUrl: "", // Isi link /preview Google Drive PDF Storyboard agar bisa di-scroll langsung
+                storyboardPdfUrl: "#",
+                storyboardNotes: `DOKUMEN STORYBOARD - TIM 01 (THE BOYS)\nJudul: Suara di Balik Layar\nFormat Dokumen: PDF Landscape (16:9)\n\n------------------------------------------------------------\nHALAMAN 1 — PEMBUKAAN & KONFLIK\n• Shot 01 (Extreme Close-Up): Jari mengetik komentar di layar ponsel dengan pencahayaan redup (low-key lighting).\n• Shot 02 (Medium Close-Up): Ekspresi wajah Raka menatap layar dengan raut cemas.\n• Audio: Efek suara notifikasi bertumpuk dengan ambien detak jantung.\n\nHALAMAN 2 — TITIK BALIK\n• Shot 03 (Wide Shot): Suasana halaman sekolah pagi hari, Raka berjalan sendirian di sisi koridor.\n• Shot 04 (Over-The-Shoulder): Dimas menghampiri dan mengajak Raka bergabung bersama teman-teman.\n\nHALAMAN 3 — PESAN KAMPANYE\n• Shot 05 (Medium Shot): Kebersamaan di ruang kelas dengan pencahayaan hangat (warm tone).\n• Shot 06 (Title Card): Bumper teks "Bersuara untuk Sesama" & kredit SUARASA FEST 2026.`,
+                instagramUrl: "https://instagram.com"
+            },
+            {
+                id: "tav-cinematic",
+                number: "02",
+                name: "TAV CINEMATIC",
+                title: "Jejak Langkah Tanpa Sampah",
+                duration: "02:50",
+                category: "Lingkungan",
+                members: ["Anggota 1", "Anggota 2", "Anggota 3", "Anggota 4"],
+                thumbnail: "https://placehold.co/800x450/0369a1/ffffff?text=02.+TAV+CINEMATIC+-+Jejak+Langkah+Tanpa+Sampah",
+                videoEmbedUrl: "",
+                videoExternalUrl: "#",
+                synopsis: "Sebuah refleksi visual tentang kebiasaan kecil membuang sampah sembarangan yang berdampak besar bagi kelestarian lingkungan dan kenyamanan bersama.",
+                scriptDocEmbedUrl: "",
+                scriptDocUrl: "#",
+                scriptFull: `JUDUL KARYA : JEJAK LANGKAH TANPA SAMPAH\nTIM PRODUKSI : TAV CINEMATIC\nDURASI       : ± 3 MENIT\n\n============================================================\n\nSCENE 1 - EXT. TAMAN KOTA - SORE\nLow angle shot mengikuti sebuah botol plastik kosong yang jatuh dari tangan pejalan kaki yang acuh.\n\nSCENE 2 - EXT. SELOKAN - SIANG (HUJAN)\nTumpukan sampah plastik menyumbat aliran air. Air mulai meluap menggenangi jalanan di sekitar pemukiman warga.\n\nSCENE 3 - EXT. TAMAN KOTA - PAGI\nSekelompok pelajar memungut sampah tersebut dan memasukkannya ke tempat sampah terpilah.\n\nNARATOR (V.O.)\n"Bumi tidak butuh janji besar, ia butuh kepedulian dari tindakan kecil kita hari ini."\n\nSUPER TEXT:\nMULAI DARI DIRI SENDIRI. JAGA LINGKUNGAN KITA.`,
+                storyboardPdfEmbedUrl: "",
+                storyboardPdfUrl: "#",
+                storyboardNotes: `DOKUMEN STORYBOARD - TIM 02 (TAV CINEMATIC)\nJudul: Jejak Langkah Tanpa Sampah\nFormat Dokumen: PDF Landscape (16:9)\n\n------------------------------------------------------------\nHALAMAN 1 — SEBAB AKIBAT\n• Shot 01 (Tracking Shot): Kamera mengikuti botol plastik yang menggelinding tertiup angin.\n• Shot 02 (Cutaway): Genangan air hujan yang mulai naik akibat saluran tersumbat.\n\nHALAMAN 2 — AKSI NYATA\n• Shot 03 (Medium Shot): Pelajar memungut sampah dan memilah ke tempat sampah organik & anorganik.\n• Shot 04 (Wide Shot): Taman kota kembali bersih, asri, dan nyaman dikunjungi warga.`,
+                instagramUrl: "https://instagram.com"
+            },
+            {
+                id: "bakso-tanpa-tepung",
+                number: "03",
+                name: "BAKSO TANPA TEPUNG",
+                title: "Sapa Sebelum Terlambat",
+                duration: "03:30",
+                category: "Kesehatan Mental",
+                members: ["Anggota 1", "Anggota 2", "Anggota 3", "Anggota 4"],
+                thumbnail: "https://placehold.co/800x450/2563eb/ffffff?text=03.+BAKSO+TANPA+TEPUNG+-+Sapa+Sebelum+Terlambat",
+                videoEmbedUrl: "",
+                videoExternalUrl: "#",
+                synopsis: "Menyoroti pentingnya kesehatan mental dan kepekaan terhadap teman sebaya yang tampak baik-baik saja di luar, namun menyimpan beban di dalam.",
+                scriptDocEmbedUrl: "",
+                scriptDocUrl: "#",
+                scriptFull: `JUDUL KARYA : SAPA SEBELUM TERLAMBAT\nTIM PRODUKSI : BAKSO TANPA TEPUNG\nDURASI       : ± 3.5 MENIT\n\n============================================================\n\nSCENE 1 - INT. RUANG KELAS - SIANG\nSuasana kelas riuh. SARI (16) tampak tersenyum saat diajak bicara, namun raut wajahnya langsung berubah murung begitu teman-temannya berbalik.\n\nSCENE 2 - INT. KORIDOR SEKOLAH - SORE\nNINA (16) menyadari perubahan sikap Sari. Alih-alih mengabaikannya, Nina duduk di samping Sari.\n\nNINA\n"Kamu nggak harus cerita sekarang, tapi aku ada di sini kalau kamu butuh teman."\n\nSari menoleh, matanya berkaca-kaca, lalu mengangguk pelan dengan senyum lega.\n\nSUPER TEXT:\nPEDULI ITU SEDERHANA. MULAI DENGAN MENYAPA.`,
+                storyboardPdfEmbedUrl: "",
+                storyboardPdfUrl: "#",
+                storyboardNotes: `DOKUMEN STORYBOARD - TIM 03 (BAKSO TANPA TEPUNG)\nJudul: Sapa Sebelum Terlambat\nFormat Dokumen: PDF Landscape (16:9)\n\n------------------------------------------------------------\nHALAMAN 1 — KONTRAS EMOSI\n• Shot 01 (Medium Shot): Suasana kelas ramai, fokus perlahan (rack focus) ke wajah Sari di pojok ruangan.\n• Shot 02 (Close-Up): Ekspresi Sari yang meredup setelah teman-temannya berlalu.\n\nHALAMAN 2 — EMPATI SAHABAT\n• Shot 03 (Two Shot): Nina duduk berdampingan dengan Sari di bangku koridor sore hari.\n• Shot 04 (Close-Up): Genggaman tangan penuh dukungan dan senyum kelegaan.`,
+                instagramUrl: "https://instagram.com"
+            },
+            {
+                id: "bismillah",
+                number: "04",
+                name: "BISMILLAH",
+                title: "Antre Itu Budaya Kita",
+                duration: "02:40",
+                category: "Etika Sosial",
+                members: ["Anggota 1", "Anggota 2", "Anggota 3", "Anggota 4"],
+                thumbnail: "https://placehold.co/800x450/0ea5e9/ffffff?text=04.+BISMILLAH+-+Antre+Itu+Budaya+Kita",
+                videoEmbedUrl: "",
+                videoExternalUrl: "#",
+                synopsis: "Mengajak masyarakat menghargai hak orang lain dalam ruang publik melalui budaya antre yang tertib, adil, dan saling menghormati.",
+                scriptDocEmbedUrl: "",
+                scriptDocUrl: "#",
+                scriptFull: `JUDUL KARYA : ANTRE ITU BUDAYA KITA\nTIM PRODUKSI : BISMILLAH\nDURASI       : ± 2.5 MENIT\n\n============================================================\n\nSCENE 1 - EXT. LOKET PELAYANAN - SIANG\nBeberapa orang berdiri rapi mengantre, termasuk seorang ibu lansia. Tiba-tiba seorang pemuda menyelinap masuk ke barisan paling depan.\n\nSCENE 2 - EXT. LOKET PELAYANAN - SIANG\nOrang-orang di belakang saling bertukar pandang. Pemuda tersebut menyadari tatapan kecewa di sekitarnya, lalu mundur dengan sopan ke barisan paling belakang.\n\nNARATOR (V.O.)\n"Menghargai waktu orang lain adalah wujud nyata menghormati sesama manusia."\n\nSUPER TEXT:\nBUDAYAKAN ANTRE, WUJUDKAN KEADILAN BERSAMA.`,
+                storyboardPdfEmbedUrl: "",
+                storyboardPdfUrl: "#",
+                storyboardNotes: `DOKUMEN STORYBOARD - TIM 04 (BISMILLAH)\nJudul: Antre Itu Budaya Kita\nFormat Dokumen: PDF Landscape (16:9)\n\n------------------------------------------------------------\nHALAMAN 1 — SITUASI ANTREAN\n• Shot 01 (Establishing Shot): Barisan warga mengantre dengan tertib di depan loket.\n• Shot 02 (Medium Shot): Seorang pemuda terburu-buru memotong barisan depan.\n\nHALAMAN 2 — KESADARAN DIRI\n• Shot 03 (Reaction Shot): Ekspresi warga yang tetap sabar namun memberi isyarat tegas.\n• Shot 04 (Wide Shot): Pemuda kembali ke barisan belakang dengan sikap hormat.`,
+                instagramUrl: "https://instagram.com"
+            },
+            {
+                id: "lentera-media",
+                number: "05",
+                name: "LENTERA MEDIA",
+                title: "Saring Sebelum Sharing",
+                duration: "03:05",
+                category: "Anti-Hoaks",
+                members: ["Anggota 1", "Anggota 2", "Anggota 3", "Anggota 4"],
+                thumbnail: "https://placehold.co/800x450/1d4ed8/ffffff?text=05.+LENTERA+MEDIA+-+Saring+Sebelum+Sharing",
+                videoEmbedUrl: "",
+                videoExternalUrl: "#",
+                synopsis: "Edukasi literasi digital untuk memutus rantai penyebaran berita bohong (hoaks) yang dapat memecah belah kerukunan warga.",
+                scriptDocEmbedUrl: "",
+                scriptDocUrl: "#",
+                scriptFull: `JUDUL KARYA : SARING SEBELUM SHARING\nTIM PRODUKSI : LENTERA MEDIA\nDURASI       : ± 3 MENIT\n\n============================================================\n\nSCENE 1 - INT. RUANG KELUARGA - PAGI\nSebuah pesan dengan judul provokatif masuk ke ponsel. Efek suara domino terdengar saat pesan tersebut diteruskan dari satu ponsel ke ponsel lainnya.\n\nSCENE 2 - INT. RUANG TAMU - SIANG\nKepanikan kecil terjadi akibat informasi yang keliru. Seorang anak muda datang menunjukkan fakta sebenarnya dari sumber resmi.\n\nNARATOR (V.O.)\n"Jadilah lentera di tengah derasnya arus informasi. Cek fakta, pastikan kebenarannya."\n\nSUPER TEXT:\nSTOP HOAKS. SARING SEBELUM SHARING.`,
+                storyboardPdfEmbedUrl: "",
+                storyboardPdfUrl: "#",
+                storyboardNotes: `DOKUMEN STORYBOARD - TIM 05 (LENTERA MEDIA)\nJudul: Saring Sebelum Sharing\nFormat Dokumen: PDF Landscape (16:9)\n\n------------------------------------------------------------\nHALAMAN 1 — PENYEBARAN INFORMASI\n• Shot 01 (Insert Shot): Jari menekan tombol 'Teruskan' pada pesan berantai.\n• Shot 02 (Split Screen): Tiga layar berbeda menampilkan reaksi panik warga menerima pesan.\n\nHALAMAN 2 — KLARIFIKASI FAKTA\n• Shot 03 (Medium Shot): Anak muda menunjukkan portal berita resmi kepada keluarga.\n• Shot 04 (Close-Up): Suasana kembali tenang dan penuh keakraban.`,
+                instagramUrl: "https://instagram.com"
+            },
+            {
+                id: "cyber-care",
+                number: "06",
+                name: "CYBER CARE",
+                title: "Jaga Data, Jaga Masa Depan",
+                duration: "02:55",
+                category: "Keamanan Siber",
+                members: ["Anggota 1", "Anggota 2", "Anggota 3", "Anggota 4"],
+                thumbnail: "https://placehold.co/800x450/0284c7/ffffff?text=06.+CYBER+CARE+-+Jaga+Data,+Jaga+Masa+Depan",
+                videoEmbedUrl: "",
+                videoExternalUrl: "#",
+                synopsis: "Meningkatkan kewaspadaan generasi muda terhadap keamanan data pribadi dan bahaya tautan phishing di dunia maya.",
+                scriptDocEmbedUrl: "",
+                scriptDocUrl: "#",
+                scriptFull: `JUDUL KARYA : JAGA DATA, JAGA MASA DEPAN\nTIM PRODUKSI : CYBER CARE\nDURASI       : ± 3 MENIT\n\n============================================================\n\nSCENE 1 - INT. KAFE - SORE\nANDI (17) mendapat pesan tautan mencurigakan yang meminta kode OTP dan data identitas dengan iming-iming hadiah.\n\nSCENE 2 - INT. KAFE - SORE\nVisualisasi grafis menunjukkan bagaimana data pribadi bisa disalahgunakan jika dibagikan sembarangan. Andi segera menutup tautan tersebut dan mengaktifkan verifikasi dua langkah.\n\nSUPER TEXT:\nDATA PRIBADIMU ADALAH KUNCI HIDUPMU. LINDUNGI SEKARANG.`,
+                storyboardPdfEmbedUrl: "",
+                storyboardPdfUrl: "#",
+                storyboardNotes: `DOKUMEN STORYBOARD - TIM 06 (CYBER CARE)\nJudul: Jaga Data, Jaga Masa Depan\nFormat Dokumen: PDF Landscape (16:9)\n\n------------------------------------------------------------\nHALAMAN 1 — ANCAMAN PHISHING\n• Shot 01 (Close-Up): Pop-up tautan hadiah mencurigakan muncul di layar.\n• Shot 02 (Motion Graphic): Ilustrasi gembok digital dan aliran data pribadi.\n\nHALAMAN 2 — PERLINDUNGAN AKUN\n• Shot 03 (Over-The-Shoulder): Andi mengaktifkan fitur verifikasi dua langkah (2FA).\n• Shot 04 (Medium Close-Up): Andi tersenyum lega menutup laptopnya.`,
+                instagramUrl: "https://instagram.com"
+            },
+            {
+                id: "synevo",
+                number: "07",
+                name: "SYNEVO",
+                title: "Satu Meja Tanpa Sekat",
+                duration: "03:20",
+                category: "Keluarga & Komunikasi",
+                members: ["Anggota 1", "Anggota 2", "Anggota 3", "Anggota 4"],
+                thumbnail: "https://placehold.co/800x450/0369a1/ffffff?text=07.+SYNEVO+-+Satu+Meja+Tanpa+Sekat",
+                videoEmbedUrl: "",
+                videoExternalUrl: "#",
+                synopsis: "Mengajak kita meletakkan gawai sejenak saat berkumpul bersama orang terdekat demi menghadirkan komunikasi yang hangat dan bermakna.",
+                scriptDocEmbedUrl: "",
+                scriptDocUrl: "#",
+                scriptFull: `JUDUL KARYA : SATU MEJA TANPA SEKAT\nTIM PRODUKSI : SYNEVO\nDURASI       : ± 3.5 MENIT\n\n============================================================\n\nSCENE 1 - INT. RUANG MAKAN - MALAM\nSuasana hening meski empat orang duduk berhadapan di meja makan. Hanya terdengar suara ketikan dan video pendek dari masing-masing ponsel.\n\nSCENE 2 - INT. RUANG MAKAN - MALAM\nSalah satu anggota keluarga meletakkan ponselnya dalam posisi terbalik di tengah meja, lalu mulai bercerita. Satu per satu yang lain ikut meletakkan ponsel mereka.\n\nNARATOR (V.O.)\n"Teknologi mendekatkan yang jauh, jangan biarkan ia menjauhkan yang dekat."\n\nSUPER TEXT:\nHADIR SEUTUHNYA UNTUK ORANG TERDEKAT.`,
+                storyboardPdfEmbedUrl: "",
+                storyboardPdfUrl: "#",
+                storyboardNotes: `DOKUMEN STORYBOARD - TIM 07 (SYNEVO)\nJudul: Satu Meja Tanpa Sekat\nFormat Dokumen: PDF Landscape (16:9)\n\n------------------------------------------------------------\nHALAMAN 1 — JARAK DI MEJA MAKAN\n• Shot 01 (Bird's-Eye View): Empat anggota keluarga duduk satu meja namun masing-masing menunduk menatap layar.\n• Shot 02 (Close-Up): Wajah diterangi cahaya dingin layar ponsel.\n\nHALAMAN 2 — KEHANGATAN BERSAMA\n• Shot 03 (Insert Shot): Tangan meletakkan ponsel dalam posisi terbalik di atas meja.\n• Shot 04 (Wide Shot): Percakapan hangat dan tawa keluarga dengan pencahayaan lampu ruang makan yang hangat.`,
+                instagramUrl: "https://instagram.com"
+            }
+        ];
+
+        // State Aplikasi
+        let currentState = {
+            view: 'home', // 'home' | 'team' | 'about'
+            teamId: null,
+            activeArchiveId: 'sop-lomba'
+        };
+
+        // Inisialisasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            handleHashChange();
+            window.addEventListener('hashchange', handleHashChange);
+        });
+
+        function handleHashChange() {
+            const hash = window.location.hash.replace('#', '');
+            if (hash.startsWith('team/')) {
+                const id = hash.split('/')[1];
+                const exists = TEAMS_DATA.find(t => t.id === id);
+                if (exists) {
+                    currentState = { view: 'team', teamId: id };
+                } else {
+                    currentState = { view: 'home', teamId: null };
+                }
+            } else if (hash === 'about') {
+                currentState = { view: 'about', teamId: null };
+            } else {
+                currentState = { view: 'home', teamId: null };
+            }
+            renderApp();
+        }
+
+        function navigateTo(view, teamId = null) {
+            if (view === 'team' && teamId) {
+                window.location.hash = `team/${teamId}`;
+            } else if (view === 'about') {
+                window.location.hash = 'about';
+            } else {
+                window.location.hash = '';
+                currentState = { view: 'home', teamId: null };
+                renderApp();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function scrollToGallery() {
+            if (currentState.view !== 'home') {
+                navigateTo('home');
+                setTimeout(() => {
+                    const el = document.getElementById('galeri-karya');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            } else {
+                const el = document.getElementById('galeri-karya');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function scrollToArchive() {
+            if (currentState.view !== 'home') {
+                navigateTo('home');
+                setTimeout(() => {
+                    const el = document.getElementById('arsip-dokumen');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            } else {
+                const el = document.getElementById('arsip-dokumen');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function selectArchiveDoc(docId) {
+            currentState.activeArchiveId = docId;
+            const archiveContainer = document.getElementById('archive-section-wrapper');
+            if (archiveContainer) {
+                archiveContainer.innerHTML = renderArchiveInner();
+                lucide.createIcons();
+            }
+        }
+
+        function showToast(msg) {
+            const box = document.getElementById('toast-box');
+            const text = document.getElementById('toast-message');
+            text.textContent = msg;
+            box.classList.remove('hidden');
+            clearTimeout(window.toastTimeout);
+            window.toastTimeout = setTimeout(() => {
+                box.classList.add('hidden');
+            }, 3500);
+        }
+
+        // Render Konten Utama
+        function renderApp() {
+            const container = document.getElementById('app-content');
+            updateNavHighlight();
+
+            if (currentState.view === 'home') {
+                container.innerHTML = renderHomeView();
+            } else if (currentState.view === 'team') {
+                container.innerHTML = renderTeamRoomView(currentState.teamId);
+            } else if (currentState.view === 'about') {
+                container.innerHTML = renderAboutView();
+            }
+
+            lucide.createIcons();
+        }
+
+        function updateNavHighlight() {
+            const navHome = document.getElementById('nav-home');
+            const navAbout = document.getElementById('nav-about');
+            [navHome, navAbout].forEach(el => {
+                el.classList.remove('text-sky-600', 'bg-sky-50');
+                el.classList.add('text-slate-600');
+            });
+
+            if (currentState.view === 'home') {
+                navHome.classList.add('text-sky-600', 'bg-sky-50');
+                navHome.classList.remove('text-slate-600');
+            } else if (currentState.view === 'about') {
+                navAbout.classList.add('text-sky-600', 'bg-sky-50');
+                navAbout.classList.remove('text-slate-600');
+            }
+        }
+
+        // ==================== TAMPILAN 1: BERANDA & 7 KARTU KARYA ALA DIGITAL TV ====================
+        function renderHomeView() {
+            const cardsHtml = TEAMS_DATA.map(team => `
+                <article onclick="navigateTo('team', '${team.id}')" class="group cursor-pointer bg-white border border-slate-200/90 hover:border-sky-400 rounded-2xl overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:shadow-sky-500/10 transition-all duration-300 hover:-translate-y-1">
+                    <!-- Thumbnail Poster Karya ala Platform Streaming -->
+                    <div class="relative aspect-video bg-slate-100 overflow-hidden">
+                        <img src="${team.thumbnail}" alt="Poster Karya ${team.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/75 via-slate-900/10 to-transparent"></div>
+                        
+                        <!-- Badge Nomor Channel / Tim -->
+                        <div class="absolute top-3 left-3 flex items-center gap-1.5">
+                            <span class="px-2.5 py-1 rounded-lg bg-white/95 backdrop-blur-md text-sky-700 font-display font-bold text-xs shadow-sm">
+                                CH ${team.number}
+                            </span>
+                            <span class="px-2 py-1 rounded-lg bg-slate-900/75 backdrop-blur-md text-white font-medium text-[11px]">
+                                ${team.category}
+                            </span>
+                        </div>
+
+                        <!-- Durasi ala OTT -->
+                        <div class="absolute bottom-3 right-3 px-2 py-0.5 rounded bg-black/75 text-white font-mono text-[11px]">
+                            ${team.duration}
+                        </div>
+
+                        <!-- Tombol Play Tengah saat Hover -->
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="w-12 h-12 rounded-full bg-sky-500 text-white flex items-center justify-center shadow-lg shadow-sky-600/40 transform scale-90 group-hover:scale-100 transition-transform">
+                                <i data-lucide="play" class="w-5 h-5 fill-current ml-0.5"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detail Kartu -->
+                    <div class="p-5 flex-grow flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-1">
+                                <p class="text-xs font-extrabold tracking-wider uppercase text-sky-600">${team.name}</p>
+                                <span class="text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">HD • ILM</span>
+                            </div>
+                            <h3 class="font-display font-bold text-lg text-slate-900 group-hover:text-sky-600 transition-colors line-clamp-1">
+                                “${team.title}”
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-600 mt-2 line-clamp-2 leading-relaxed">
+                                ${team.synopsis}
+                            </p>
+                        </div>
+
+                        <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+                            <span class="text-xs text-slate-400 flex items-center gap-1.5">
+                                <i data-lucide="file-check-2" class="w-3.5 h-3.5 text-sky-500"></i> Video • Naskah • Storyboard
+                            </span>
+                            <span class="inline-flex items-center gap-1 text-xs sm:text-sm font-bold text-sky-600 group-hover:text-sky-700">
+                                Tonton <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-0.5 transition-transform"></i>
+                            </span>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+
+            return `
+                <div class="fade-in">
+                    <!-- Hero Banner Cerah Modern ala Digital TV / Streaming -->
+                    <section class="relative overflow-hidden border-b border-slate-200 bg-gradient-to-br from-sky-50 via-white to-blue-50 py-12 sm:py-20">
+                        <!-- Dekorasi Cahaya Halus -->
+                        <div class="absolute -top-24 right-1/4 w-[450px] h-[300px] bg-sky-400/15 blur-[100px] rounded-full pointer-events-none"></div>
+                        <div class="absolute -bottom-24 left-1/4 w-[400px] h-[250px] bg-blue-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+
+                        <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center relative z-10">
+                            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-sky-200 shadow-sm text-xs font-bold text-sky-700 mb-6">
+                                <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+                                <span>ON AIR • GALERI LOMBA IKLAN LAYANAN MASYARAKAT</span>
+                            </div>
+
+                            <h1 class="font-display font-extrabold text-3xl sm:text-5xl md:text-6xl tracking-tight text-slate-900 leading-tight">
+                                SUARASA FEST <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-600">2026</span>
+                            </h1>
+
+                            <p class="mt-3 font-display text-lg sm:text-2xl font-bold text-slate-700">
+                                “Bersuara untuk Sesama”
+                            </p>
+
+                            <p class="mt-4 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                                Selamat datang di etalase penyiaran digital SUARASA FEST 2026. Saksikan tayangan Iklan Layanan Masyarakat serta telusuri dokumen naskah dan storyboard dari 7 tim peserta.
+                            </p>
+
+                            <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+                                <button onclick="scrollToGallery()" class="px-6 py-3.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-sm sm:text-base shadow-lg shadow-sky-600/25 flex items-center gap-2 transition-all active:scale-95">
+                                    <i data-lucide="play-circle" class="w-5 h-5"></i> Mulai Menonton (7 Tim)
+                                </button>
+                                <button onclick="navigateTo('about')" class="px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-semibold text-sm sm:text-base border border-slate-300 shadow-sm transition-all">
+                                    Tentang Program
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Grid 7 Ruang Karya Tim -->
+                    <section id="galeri-karya" class="max-w-6xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16">
+                        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-2">
+                            <div>
+                                <span class="text-xs font-extrabold uppercase tracking-widest text-sky-600">Daftar Saluran Karya</span>
+                                <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-900 mt-1">7 Ruang Karya Tim Peserta</h2>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-500">Pilih salah satu kartu tim untuk menonton video dan membaca dokumen lengkap.</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            ${cardsHtml}
+                        </div>
+                    </section>
+
+                    <!-- Folder Arsip SOP Lomba, Panduan Mentoring, & Sistem Rubrik Penilaian -->
+                    <section id="arsip-dokumen" class="max-w-6xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20">
+                        <div id="archive-section-wrapper">
+                            ${renderArchiveInner()}
+                        </div>
+                    </section>
+                </div>
+            `;
+        }
+
+        // ==================== RENDER BAGIAN FOLDER ARSIP & PRATINJAU DOKUMEN ====================
+        function renderArchiveInner() {
+            const activeDoc = ARCHIVE_DOCS.find(d => d.id === currentState.activeArchiveId) || ARCHIVE_DOCS[0];
+
+            const foldersHtml = ARCHIVE_DOCS.map(doc => {
+                const isSelected = doc.id === activeDoc.id;
+                const activeClasses = isSelected
+                    ? 'bg-sky-600 text-white border-sky-600 shadow-lg shadow-sky-600/20 ring-2 ring-sky-600/20'
+                    : 'bg-white hover:bg-sky-50/70 text-slate-800 border-slate-200 hover:border-sky-300 shadow-sm';
+                const iconBg = isSelected
+                    ? 'bg-white/20 text-white'
+                    : 'bg-sky-100 text-sky-600';
+                const subtitleColor = isSelected ? 'text-sky-100' : 'text-slate-500';
+                const badgeStyle = isSelected
+                    ? 'bg-white/20 text-white'
+                    : 'bg-slate-100 text-slate-600';
+
+                return `
+                    <button onclick="selectArchiveDoc('${doc.id}')" class="text-left p-5 rounded-2xl border transition-all duration-200 flex flex-col justify-between group ${activeClasses}">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <div class="w-11 h-11 rounded-xl flex items-center justify-center transition-transform group-hover:scale-105 ${iconBg}">
+                                    <i data-lucide="${doc.icon}" class="w-5 h-5"></i>
+                                </div>
+                                <span class="text-[11px] font-display font-bold px-2.5 py-1 rounded-lg ${badgeStyle}">
+                                    ${doc.code}
+                                </span>
+                            </div>
+                            <h3 class="font-display font-bold text-base sm:text-lg leading-snug">
+                                ${doc.title}
+                            </h3>
+                            <p class="text-xs mt-1 leading-relaxed ${subtitleColor}">
+                                ${doc.subtitle}
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t ${isSelected ? 'border-white/20' : 'border-slate-100'} flex items-center justify-between text-xs font-semibold">
+                            <span>${isSelected ? 'Sedang Ditampilkan' : 'Buka Pratinjau File'}</span>
+                            <i data-lucide="${isSelected ? 'eye' : 'chevron-right'}" class="w-4 h-4"></i>
+                        </div>
+                    </button>
+                `;
+            }).join('');
+
+            const previewAreaHtml = activeDoc.embedUrl
+                ? `<div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-100">
+                       <iframe src="${activeDoc.embedUrl}" title="${activeDoc.title}" class="w-full h-[420px] sm:h-[520px] bg-white" frameborder="0"></iframe>
+                   </div>`
+                : `<div class="h-80 sm:h-96 overflow-y-auto doc-scroll p-6 rounded-xl bg-slate-50 border border-slate-200 font-mono text-xs sm:text-sm text-slate-800 whitespace-pre-line leading-relaxed shadow-inner">
+                       ${activeDoc.content}
+                   </div>`;
+
+            return `
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-2">
+                    <div>
+                        <span class="text-xs font-extrabold uppercase tracking-widest text-sky-600">Pusat Informasi & Regulasi</span>
+                        <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-900 mt-1">Folder Arsip Resmi Lomba</h2>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-500">Pilih folder dokumen di bawah untuk melihat pratinjau file secara langsung.</p>
+                </div>
+
+                <!-- 3 Kartu Folder Arsip -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 mb-6">
+                    ${foldersHtml}
+                </div>
+
+                <!-- Panel Pratinjau File Aktif -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-4 border-b border-slate-100">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-sky-50 border border-sky-200 text-sky-600 flex items-center justify-center shrink-0">
+                                <i data-lucide="file-text" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">${activeDoc.title}</h3>
+                                    <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200/70">${activeDoc.updated}</span>
+                                </div>
+                                <p class="text-xs text-slate-500">${activeDoc.subtitle} — Scroll pada kotak pratinjau untuk membaca seluruh isi file.</p>
+                            </div>
+                        </div>
+
+                        <a href="${activeDoc.externalUrl}" onclick="handleExternalLink(event, '${activeDoc.externalUrl}', 'Tautan file PDF ${activeDoc.title} belum disematkan oleh panitia.')" target="_blank" class="shrink-0 px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 shadow-sm transition-colors">
+                            <i data-lucide="external-link" class="w-4 h-4"></i> Buka File PDF
+                        </a>
+                    </div>
+
+                    ${previewAreaHtml}
+                </div>
+            `;
+        }
+
+        // ==================== TAMPILAN 2: RUANG KARYA KHUSUS TIM ====================
+        function renderTeamRoomView(teamId) {
+            const currentIndex = TEAMS_DATA.findIndex(t => t.id === teamId);
+            const team = TEAMS_DATA[currentIndex];
+            if (!team) return renderHomeView();
+
+            // Navigasi Tim Sebelumnya & Berikutnya (sirkular)
+            const prevIndex = (currentIndex - 1 + TEAMS_DATA.length) % TEAMS_DATA.length;
+            const nextIndex = (currentIndex + 1) % TEAMS_DATA.length;
+            const prevTeam = TEAMS_DATA[prevIndex];
+            const nextTeam = TEAMS_DATA[nextIndex];
+
+            // Area Pemutar Video ala Streaming Player
+            const videoPlayerHtml = team.videoEmbedUrl
+                ? `<div class="aspect-video w-full rounded-2xl overflow-hidden bg-slate-950 border border-slate-200 shadow-xl">
+                       <iframe src="${team.videoEmbedUrl}" title="${team.title}" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                   </div>`
+                : `<div class="relative aspect-video w-full rounded-2xl overflow-hidden bg-slate-900 border border-slate-200 shadow-xl group">
+                       <img src="${team.thumbnail}" alt="${team.title}" class="w-full h-full object-cover opacity-85">
+                       <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/30 to-transparent flex flex-col items-center justify-center p-6 text-center">
+                           <button onclick="handleWatchPlaceholder('${team.videoExternalUrl}')" class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-sky-500 hover:bg-sky-400 text-white flex items-center justify-center shadow-2xl shadow-sky-500/40 transition-transform hover:scale-105 mb-3">
+                               <i data-lucide="play" class="w-7 h-7 sm:w-8 sm:h-8 fill-current ml-1"></i>
+                           </button>
+                           <span class="px-3.5 py-1 rounded-full bg-white/95 text-slate-900 text-xs font-bold shadow-md">
+                               Pemutar Video ILM • ${team.name}
+                           </span>
+                       </div>
+                   </div>`;
+
+            // Pratinjau File Naskah yang Dapat Di-scroll Langsung di Website
+            const scriptScrollPreviewHtml = team.scriptDocEmbedUrl
+                ? `<div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-100">
+                       <iframe src="${team.scriptDocEmbedUrl}" class="w-full h-80 sm:h-96 bg-white" frameborder="0"></iframe>
+                   </div>`
+                : `<div class="h-72 sm:h-80 overflow-y-auto doc-scroll p-5 rounded-xl bg-slate-50 border border-slate-200 font-mono text-xs sm:text-sm text-slate-800 whitespace-pre-line leading-relaxed shadow-inner">
+                       ${team.scriptFull}
+                   </div>`;
+
+            // Pratinjau File Storyboard yang Dapat Di-scroll Langsung di Website (Tanpa Panel-panel)
+            const storyboardScrollPreviewHtml = team.storyboardPdfEmbedUrl
+                ? `<div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-100">
+                       <iframe src="${team.storyboardPdfEmbedUrl}" class="w-full h-[420px] sm:h-[540px] bg-white" frameborder="0"></iframe>
+                   </div>`
+                : `<div class="h-80 sm:h-96 overflow-y-auto doc-scroll p-6 rounded-xl bg-slate-50 border border-slate-200 font-mono text-xs sm:text-sm text-slate-800 whitespace-pre-line leading-relaxed shadow-inner">
+                       ${team.storyboardNotes}
+                   </div>`;
+
+            return `
+                <div class="max-w-5xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10 fade-in">
+                    <!-- Breadcrumb / Tombol Kembali Atas -->
+                    <div class="mb-6 flex items-center justify-between">
+                        <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-600 hover:text-sky-600 transition-colors">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali ke Galeri Utama
+                        </button>
+                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-sky-100 text-sky-700 border border-sky-200">
+                            CHANNEL ${team.number} / 07
+                        </span>
+                    </div>
+
+                    <!-- Header Ruang Karya Tim -->
+                    <div class="mb-8">
+                        <div class="flex flex-wrap items-center gap-2 text-sky-600 font-display font-bold text-sm sm:text-base tracking-wide uppercase">
+                            <span>TIM ${team.number} — ${team.name}</span>
+                            <span class="text-slate-300">•</span>
+                            <span class="text-xs px-2.5 py-0.5 rounded-md bg-slate-200/80 text-slate-700">${team.category}</span>
+                        </div>
+                        <h1 class="font-display font-extrabold text-2xl sm:text-4xl text-slate-900 mt-1">
+                            “${team.title}”
+                        </h1>
+                        <p class="text-xs sm:text-sm text-slate-500 mt-2 flex items-center gap-2 flex-wrap">
+                            <span class="font-semibold text-slate-700">Tim Produksi:</span>
+                            <span>${team.members.join(' • ')}</span>
+                        </p>
+                    </div>
+
+                    <!-- ==================== KATEGORI 1: VIDEO ILM ==================== -->
+                    <section class="mb-10">
+                        <div class="flex items-center gap-2.5 mb-4">
+                            <div class="w-8 h-8 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center">
+                                <i data-lucide="tv" class="w-4 h-4"></i>
+                            </div>
+                            <h2 class="font-display font-bold text-lg sm:text-xl text-slate-900">1. Tayangan Video ILM</h2>
+                        </div>
+
+                        ${videoPlayerHtml}
+
+                        <!-- Deskripsi Pesan Utama -->
+                        <div class="mt-4 p-5 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-sky-600 block mb-1">Sinopsis & Pesan Utama</span>
+                                <p class="text-sm sm:text-base text-slate-700 leading-relaxed">${team.synopsis}</p>
+                            </div>
+                            <a href="${team.videoExternalUrl}" onclick="handleExternalLink(event, '${team.videoExternalUrl}', 'Tautan video eksternal belum disematkan oleh panitia.')" target="_blank" class="shrink-0 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 border border-slate-200 transition-colors">
+                                <i data-lucide="external-link" class="w-4 h-4 text-sky-600"></i> Tonton Tautan Video
+                            </a>
+                        </div>
+                    </section>
+
+                    <!-- ==================== KATEGORI 2: PRATINJAU FILE NASKAH (SCROLLABLE) ==================== -->
+                    <section class="mb-10 bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-8 h-8 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
+                                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <h2 class="font-display font-bold text-lg sm:text-xl text-slate-900">2. Dokumen Naskah ILM</h2>
+                                    <p class="text-xs text-slate-500">Scroll ke bawah pada area pratinjau untuk membaca isi naskah.</p>
+                                </div>
+                            </div>
+                            <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 self-start sm:self-auto">
+                                Pratinjau Dokumen
+                            </span>
+                        </div>
+
+                        <!-- Kotak Pratinjau File Naskah yang Dapat Di-scroll -->
+                        ${scriptScrollPreviewHtml}
+
+                        <div class="mt-4 flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100">
+                            <div class="flex flex-wrap items-center gap-2.5">
+                                <button onclick="openScriptModal('${team.id}')" class="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-semibold text-xs sm:text-sm inline-flex items-center gap-2 shadow-sm transition-colors">
+                                    <i data-lucide="maximize-2" class="w-4 h-4"></i> Baca Naskah Lengkap (Layar Penuh)
+                                </button>
+                                <a href="${team.scriptDocUrl}" onclick="handleExternalLink(event, '${team.scriptDocUrl}', 'File PDF/Google Docs naskah belum ditautkan oleh pengelola.')" target="_blank" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs sm:text-sm inline-flex items-center gap-2 border border-slate-200 transition-colors">
+                                    <i data-lucide="file-down" class="w-4 h-4 text-sky-600"></i> Buka File Naskah
+                                </a>
+                            </div>
+                            <span class="text-[11px] text-slate-400">Naskah_${team.name.replace(/\s+/g, '_')}.pdf</span>
+                        </div>
+                    </section>
+
+                    <!-- ==================== KATEGORI 3: PRATINJAU FILE STORYBOARD (SCROLLABLE, TANPA PANEL) ==================== -->
+                    <section class="mb-10 bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                                    <i data-lucide="book-open-check" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <h2 class="font-display font-bold text-lg sm:text-xl text-slate-900">3. Dokumen Storyboard (PDF)</h2>
+                                    <p class="text-xs text-slate-500">Scroll ke bawah untuk meninjau dokumen perencanaan visual tim.</p>
+                                </div>
+                            </div>
+                            <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-rose-50 text-rose-600 border border-rose-200/70 self-start sm:self-auto">
+                                Format PDF
+                            </span>
+                        </div>
+
+                        <!-- Kotak Pratinjau File Storyboard yang Dapat Di-scroll -->
+                        ${storyboardScrollPreviewHtml}
+
+                        <div class="mt-4 flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100">
+                            <a href="${team.storyboardPdfUrl}" onclick="handleExternalLink(event, '${team.storyboardPdfUrl}', 'File PDF Storyboard belum ditautkan oleh pengelola.')" target="_blank" class="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-semibold text-xs sm:text-sm inline-flex items-center gap-2 shadow-sm transition-colors">
+                                <i data-lucide="external-link" class="w-4 h-4"></i> Buka Dokumen PDF Storyboard
+                            </a>
+                            <span class="text-[11px] text-slate-400">Storyboard_${team.name.replace(/\s+/g, '_')}.pdf</span>
+                        </div>
+                    </section>
+
+                    <!-- ==================== KATEGORI 4: INSTAGRAM ==================== -->
+                    <section class="mb-12 bg-gradient-to-r from-sky-50 via-white to-pink-50 border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+                        <div class="flex items-start sm:items-center gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 via-pink-500 to-purple-600 text-white flex items-center justify-center shrink-0 shadow-md">
+                                <i data-lucide="instagram" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h2 class="font-display font-bold text-lg text-slate-900">4. Apresiasi Karya di Instagram</h2>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-0.5">
+                                    Dukung <strong class="text-slate-900">${team.name}</strong> dengan menonton dan menyukai unggahan resmi ILM mereka di Instagram.
+                                </p>
+                            </div>
+                        </div>
+
+                        <a href="${team.instagramUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 px-5 py-3 rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-rose-500 hover:opacity-95 text-white font-bold text-xs sm:text-sm inline-flex items-center justify-center gap-2 shadow-md shadow-pink-500/20 transition-all">
+                            <i data-lucide="instagram" class="w-4 h-4"></i> Lihat Unggahan ILM di Instagram
+                        </a>
+                    </section>
+
+                    <!-- ==================== NAVIGASI BAWAH RUANG KARYA ==================== -->
+                    <nav aria-label="Navigasi antar tim" class="pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <button onclick="navigateTo('home')" class="w-full sm:w-auto px-5 py-3 rounded-xl bg-white hover:bg-slate-100 text-slate-800 text-xs sm:text-sm font-bold inline-flex items-center justify-center gap-2 border border-slate-300 shadow-sm transition-colors">
+                            ← Kembali ke Galeri
+                        </button>
+
+                        <div class="w-full sm:w-auto flex items-center gap-3">
+                            <button onclick="navigateTo('team', '${prevTeam.id}')" class="flex-1 sm:flex-initial px-4 py-3 rounded-xl bg-white hover:bg-sky-50 text-slate-700 hover:text-sky-700 text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 border border-slate-200 shadow-sm transition-colors">
+                                <i data-lucide="chevron-left" class="w-4 h-4 text-sky-600"></i>
+                                <span class="truncate max-w-[115px] sm:max-w-none">Karya Tim Sebelumnya</span>
+                            </button>
+                            <button onclick="navigateTo('team', '${nextTeam.id}')" class="flex-1 sm:flex-initial px-4 py-3 rounded-xl bg-white hover:bg-sky-50 text-slate-700 hover:text-sky-700 text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 border border-slate-200 shadow-sm transition-colors">
+                                <span class="truncate max-w-[115px] sm:max-w-none">Karya Tim Berikutnya</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-sky-600"></i>
+                            </button>
+                        </div>
+                    </nav>
+                </div>
+            `;
+        }
+
+        // ==================== TAMPILAN 3: TENTANG SUARASA FEST 2026 ====================
+        function renderAboutView() {
+            return `
+                <div class="max-w-3xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 fade-in">
+                    <div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-lg">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-sky-700 text-xs font-bold mb-4">
+                            <i data-lucide="tv" class="w-3.5 h-3.5"></i> Tentang Program
+                        </div>
+
+                        <h1 class="font-display font-extrabold text-2xl sm:text-4xl text-slate-900">
+                            SUARASA FEST 2026
+                        </h1>
+                        <p class="text-sky-600 font-display font-bold text-base sm:text-lg mt-1">
+                            Tema: “Bersuara untuk Sesama”
+                        </p>
+
+                        <div class="mt-6 space-y-4 text-sm sm:text-base text-slate-600 leading-relaxed">
+                            <p>
+                                <strong class="text-slate-900">SUARASA FEST 2026</strong> merupakan ruang kreativitas bagi peserta didik untuk menyampaikan gagasan dan kepedulian sosial melalui karya Iklan Layanan Masyarakat (ILM). Melalui tema <strong class="text-sky-600">“Bersuara untuk Sesama”</strong>, setiap karya diharapkan mampu menghadirkan pesan yang bermakna, kreatif, dan relevan bagi masyarakat.
+                            </p>
+                            <p>
+                                Menghadirkan konsep etalase televisi digital modern, platform ini memudahkan pengunjung dari poster acara untuk menonton tayangan video ILM serta meninjau langsung dokumen naskah dan storyboard dari ketujuh tim peserta.
+                            </p>
+                        </div>
+
+                        <div class="mt-8 pt-6 border-t border-slate-100 grid grid-cols-3 gap-4 text-center">
+                            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+                                <span class="font-display font-extrabold text-xl sm:text-2xl text-sky-600 block">07</span>
+                                <span class="text-xs font-medium text-slate-500">Saluran Tim</span>
+                            </div>
+                            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+                                <span class="font-display font-extrabold text-xl sm:text-2xl text-slate-900 block">ILM</span>
+                                <span class="text-xs font-medium text-slate-500">Karya Audiovisual</span>
+                            </div>
+                            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+                                <span class="font-display font-extrabold text-xl sm:text-2xl text-sky-600 block">2026</span>
+                                <span class="text-xs font-medium text-slate-500">Edisi Festival</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 flex justify-center">
+                            <button onclick="navigateTo('home')" class="px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-sm inline-flex items-center gap-2 shadow-md shadow-sky-600/20 transition-colors">
+                                <i data-lucide="play-circle" class="w-4 h-4"></i> Jelajahi 7 Ruang Karya
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ==================== INTERAKSI MODAL NASKAH ====================
+        function openScriptModal(teamId) {
+            const team = TEAMS_DATA.find(t => t.id === teamId);
+            if (!team) return;
+
+            document.getElementById('modal-team-name').textContent = `TIM ${team.number} — ${team.name}`;
+            document.getElementById('modal-script-title').textContent = `Naskah: “${team.title}”`;
+            document.getElementById('modal-script-body').textContent = team.scriptFull;
+
+            const docLink = document.getElementById('modal-doc-link');
+            docLink.href = team.scriptDocUrl;
+            docLink.onclick = (e) => handleExternalLink(e, team.scriptDocUrl, 'Dokumen eksternal naskah belum ditautkan.');
+
+            document.getElementById('script-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeScriptModal() {
+            document.getElementById('script-modal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function handleWatchPlaceholder(url) {
+            if (!url || url === '#') {
+                showToast('Video belum diunggah. Pengelola dapat menyematkan tautan embed YouTube/Drive pada data tim.');
+            } else {
+                window.open(url, '_blank');
+            }
+        }
+
+        function handleExternalLink(e, url, fallbackMsg) {
+            if (!url || url === '#') {
+                e.preventDefault();
+                showToast(fallbackMsg);
+            }
+        }
+    </script>
+</body>
+</html>
