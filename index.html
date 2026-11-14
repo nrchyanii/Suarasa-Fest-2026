@@ -120,7 +120,7 @@
 
     <!-- ==================== MODAL BACA NASKAH LENGKAP ==================== -->
     <div id="script-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white border border-slate-200 rounded-2xl max-w-3xl w-full max-h-[88vh] flex flex-col shadow-2xl fade-in">
+        <div class="bg-white border border-slate-200 rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl fade-in">
             <div class="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50 rounded-t-2xl">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-wider text-sky-600" id="modal-team-name">NAMA TIM</span>
@@ -130,13 +130,13 @@
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
-            <div class="p-6 sm:p-8 overflow-y-auto doc-scroll text-sm sm:text-base text-slate-800 leading-relaxed whitespace-pre-line font-mono bg-white" id="modal-script-body">
-                <!-- Isi naskah lengkap -->
+            <div class="p-4 sm:p-6 overflow-y-auto doc-scroll text-sm sm:text-base text-slate-800 leading-relaxed bg-white" id="modal-script-body">
+                <!-- Isi naskah lengkap (iframe PDF/Drive atau teks) -->
             </div>
             <div class="p-4 border-t border-slate-200 flex items-center justify-between bg-slate-50 rounded-b-2xl">
                 <span class="text-xs text-slate-500">Dokumen Digital Naskah ILM</span>
                 <div class="flex gap-2">
-                    <a id="modal-doc-link" href="#" target="_blank" class="px-4 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs sm:text-sm font-semibold flex items-center gap-2 transition-colors">
+                    <a id="modal-doc-link" href="#" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs sm:text-sm font-semibold flex items-center gap-2 transition-colors">
                         <i data-lucide="external-link" class="w-4 h-4 text-sky-600"></i> Buka File Eksternal
                     </a>
                     <button onclick="closeScriptModal()" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs sm:text-sm font-semibold transition-colors">
@@ -159,8 +159,6 @@
          * ============================================================================
          * DATA ARSIP DOKUMEN RESMI (SOP, PANDUAN MENTORING, RUBRIK PENILAIAN)
          * ============================================================================
-         * Pengelola dapat mengganti `embedUrl` dengan link Google Drive (/preview)
-         * atau file PDF agar langsung tampil di kotak pratinjau scroll.
          */
         const ARCHIVE_DOCS = [
             {
@@ -173,7 +171,7 @@
                 icon: "folder-check",
                 embedUrl: "https://drive.google.com/file/d/1b0osbXOUaDCOGXNzPDZwXAi-8LPZz90Z/preview",
                 externalUrl: "https://drive.google.com/file/d/1b0osbXOUaDCOGXNzPDZwXAi-8LPZz90Z/view?usp=sharing",
-                content: `STANDAR OPERASIONAL PROSEDUR (SOP) LOMBA ILM\nSUARASA FEST 2026 — “BERSUARA UNTUK SESAMA”\n\n============================================================\n\n1. KETENTUAN UMUM PESERTA\n• Peserta merupakan tim yang terdaftar resmi dalam kegiatan SUARASA FEST 2026 (7 Tim Produksi).\n• Karya Iklan Layanan Masyarakat (ILM) harus orisinal, belum pernah dipublikasikan untuk lomba lain, dan tidak melanggar hak cipta (audio, visual, maupun grafis).\n\n2. SPESIFIKASI TEKNIS VIDEO\n• Durasi karya video ILM: 2 hingga 4 menit (termasuk bumper pembuka dan credit title).\n• Resolusi minimal Full HD (1920 x 1080 piksel) dengan rasio aspek 16:9 (Landscape).\n• Format berkas akhir: MP4 (H.264) dengan kualitas audio jernih.\n\n3. KELENGKAPAN DOKUMEN PRODUKSI\n• Naskah Skenario ILM lengkap dalam format dokumen digital (PDF).\n• Dokumen Storyboard visual seluruh adegan dalam format PDF.\n• Unggahan publikasi karya pada platform Instagram sesuai jadwal tayang yang ditetapkan panitia.\n\n4. ETIKA & KEPATUHAN KONTEN\n• Karya dilarang mengandung unsur SARA, ujaran kebencian, kekerasan eksplisit, maupun promosi produk komersial tertentu.`
+                content: `STANDAR OPERASIONAL PROSEDUR (SOP) LOMBA ILM\nSUARASA FEST 2026 — “BERSUARA UNTUK SESAMA”\n\n============================================================\n\n1. KETENTUAN UMUM PESERTA\n• Peserta merupakan tim yang terdaftar resmi dalam kegiatan SUARASA FEST 2026 (7 Tim Produksi).\n• Karya Iklan Layanan Masyarakat (ILM) harus orisinal, belum pernah dipublikasikan untuk lomba lain, dan tidak melanggar hak cipta (audio, visual, maupun grafis).\n\n2. SPESIFIKASI TEKNIS VIDEO\n• Durasi karya video ILM: 1,5 hingga 4 menit (termasuk bumper pembuka dan credit title).\n• Resolusi minimal Full HD (1920 x 1080 piksel) dengan rasio aspek 16:9 (Landscape).\n• Format berkas akhir: MP4 (H.264) dengan kualitas audio jernih.\n\n3. KELENGKAPAN DOKUMEN PRODUKSI\n• Naskah Skenario ILM lengkap dalam format dokumen digital (PDF).\n• Dokumen Storyboard visual seluruh adegan dalam format PDF.\n• Unggahan publikasi karya pada platform Instagram sesuai jadwal tayang yang ditetapkan panitia.\n\n4. ETIKA & KEPATUHAN KONTEN\n• Karya dilarang mengandung unsur SARA, ujaran kebencian, kekerasan eksplisit, maupun promosi produk komersial tertentu.`
             },
             {
                 id: "panduan-mentoring",
@@ -211,6 +209,7 @@
                 category: "Digital Awareness",
                 members: ["Safa", "Zakiyah", "Nadya"],
                 thumbnail: "https://drive.google.com/thumbnail?id=13ijZIBU44kMYEBxa4Gr-KKAJeM-8oKfd&sz=w1000",
+                videoEmbedUrl: "https://drive.google.com/file/d/1HLlvoKu0SUl-_aRK9o2jylgLykPgnWbh/preview",
                 videoExternalUrl: "https://drive.google.com/file/d/1HLlvoKu0SUl-_aRK9o2jylgLykPgnWbh/view?usp=sharing",
                 synopsis: "Mengangkat realitas remaja yang berlarut-larut dalam dunia maya.",
                 scriptDocEmbedUrl: "https://drive.google.com/file/d/14t2cPFrA-QfmB-r-b4ks3XgB7Y73hVeD/preview",
@@ -230,6 +229,7 @@
                 category: "Perundungan",
                 members: ["Arya", "Nuraeny", "Hana", "Zulkifli", "Aly Dzaky"],
                 thumbnail: "https://drive.google.com/thumbnail?id=1pNQ9cYn3jhziB2twGC9W-a6CXURz8RvU&sz=w1000",
+                videoEmbedUrl: "https://drive.google.com/file/d/1RhKdAGzBcRrpiAsTy66SDXW9bS_8GUyK/preview",
                 videoExternalUrl: "https://drive.google.com/file/d/1RhKdAGzBcRrpiAsTy66SDXW9bS_8GUyK/view?usp=sharing",
                 synopsis: "Kisah seorang remaja murid SMK yang merasakan perundungan di sekolahnya.",
                 scriptDocEmbedUrl: "https://drive.google.com/file/d/1jek1TsSRZYtmWaFlyB4lHjGc-4MT4RH7/preview",
@@ -249,6 +249,7 @@
                 category: "Kebersihan Lingkungan",
                 members: ["Fitri", "Cantika", "Hafizyah", "Awaliyah"],
                 thumbnail: "https://drive.google.com/thumbnail?id=1XKYr4NIgCDJz8qcAFs0ksdTZ48ZLrZL0&sz=w1000",
+                videoEmbedUrl: "https://drive.google.com/file/d/1cAV9MLTsGjjTuv8nGgVALt7bUa5r25AC/preview",
                 videoExternalUrl: "https://drive.google.com/file/d/1cAV9MLTsGjjTuv8nGgVALt7bUa5r25AC/view?usp=sharing",
                 synopsis: "Lingkungan sekolah yang bersih dapat menjaga kenyamanan belajar.",
                 scriptDocEmbedUrl: "https://drive.google.com/file/d/1mvDtrf3w27fShFCBs8Qu8xTDU3cWxush/preview",
@@ -262,12 +263,13 @@
             {
                 id: "tav-cinematic",
                 number: "04",
-                name: "TAV Cinematic
+                name: "TAV Cinematic",
                 title: "Stop Eksploitasi Anak",
                 duration: "01.40",
                 category: "Perlindungan Anak",
                 members: ["Rifky", "Ziqrul", "Akbar", "Mustari", "Aaqim"],
                 thumbnail: "https://drive.google.com/thumbnail?id=1KTKNfRAHbwk4bqHz0jdZ2q-DL82h-e3k&sz=w1000",
+                videoEmbedUrl: "https://drive.google.com/file/d/1XRXvzcu-S0PTUi6au7cVRmTp4LrcFYPX/preview",
                 videoExternalUrl: "https://drive.google.com/file/d/1XRXvzcu-S0PTUi6au7cVRmTp4LrcFYPX/view?usp=sharing",
                 synopsis: "Ketegaran seorang murid yang membantu orang tua bahkan saat di sekolah.",
                 scriptDocEmbedUrl: "https://drive.google.com/file/d/1z2DGrkph3MUGjs9B9b8nm6YTrVlW2ZIC/preview",
@@ -287,6 +289,7 @@
                 category: "Social Awareness",
                 members: ["Rian", "Andika", "Bagas", "Alcaesar"],
                 thumbnail: "https://drive.google.com/thumbnail?id=1bnnQz-6coTTRErLeLBLmQh4rOeKDEJo8&sz=w1000",
+                videoEmbedUrl: "https://drive.google.com/file/d/1JlTJF7SPEtpZdtYvsUlqsYEqkqcuhVDq/preview",
                 videoExternalUrl: "https://drive.google.com/file/d/1JlTJF7SPEtpZdtYvsUlqsYEqkqcuhVDq/view?usp=sharing",
                 synopsis: "Menggenggam yang jauh setiap waktu tanpa peduli hal yang paling dekat.",
                 scriptDocEmbedUrl: "https://drive.google.com/file/d/1xSTvjzRKddcCFZSXK5Y0J-yrIpZkd9z4/preview",
@@ -306,6 +309,7 @@
                 category: "Literasi Finansial",
                 members: ["Al Ghazali", "Rizky", "Farel", "Pahri", "Irham"],
                 thumbnail: "https://drive.google.com/thumbnail?id=17lQca70thJoXh3NUD9TxdL5PN57aamwf&sz=w1000",
+                videoEmbedUrl: "https://drive.google.com/file/d/1FEm58Yc5jb22eYU8cAlZlG6zUswAvdrz/preview",
                 videoExternalUrl: "https://drive.google.com/file/d/1FEm58Yc5jb22eYU8cAlZlG6zUswAvdrz/view?usp=sharing",
                 synopsis: "Bijak memilih dan menggunakan layanan pinjaman online.",
                 scriptDocEmbedUrl: "https://drive.google.com/file/d/1zhIS_tPFP06FIfwSrbpFzLP6gUSeUyF1/preview",
@@ -325,10 +329,11 @@
                 category: "Perundungan",
                 members: ["Kevin", "Haikal", "Rasya", "Pahri", "Farel"],
                 thumbnail: "https://drive.google.com/thumbnail?id=15KSIWJ_-VlcOuUkRFeaUYt0_LapceMcA&sz=w1000",
+                videoEmbedUrl: "https://drive.google.com/file/d/1zjehEoNpye-_9xumxsD8iKJCDIb6Rtji/preview",
                 videoExternalUrl: "https://drive.google.com/file/d/1zjehEoNpye-_9xumxsD8iKJCDIb6Rtji/view?usp=sharing",
                 synopsis: "Bercanda berujung luka hati, jadilah teman yang berani untuk peduli bukan ikut menyakiti.", 
                 scriptDocEmbedUrl: "https://drive.google.com/file/d/12oqz9SeD60_Muqq-6MXQXv4DDA16sfMz/preview",
-                scriptDocUrl: "https://drive.google.com/file/12oqz9SeD60_Muqq-6MXQXv4DDA16sfMz/view?usp=sharing",
+                scriptDocUrl: "https://drive.google.com/file/d/12oqz9SeD60_Muqq-6MXQXv4DDA16sfMz/view?usp=sharing",
                 scriptFull: "",
                 storyboardPdfEmbedUrl: "https://drive.google.com/file/d/1WxJOzMdw9CnXQRQzPSG7viGJDrXL30hb/preview",
                 storyboardPdfUrl: "https://drive.google.com/file/d/1WxJOzMdw9CnXQRQzPSG7viGJDrXL30hb/view?usp=sharing",
@@ -356,14 +361,14 @@
                 const id = hash.split('/')[1];
                 const exists = TEAMS_DATA.find(t => t.id === id);
                 if (exists) {
-                    currentState = { view: 'team', teamId: id };
+                    currentState = { ...currentState, view: 'team', teamId: id };
                 } else {
-                    currentState = { view: 'home', teamId: null };
+                    currentState = { ...currentState, view: 'home', teamId: null };
                 }
             } else if (hash === 'about') {
-                currentState = { view: 'about', teamId: null };
+                currentState = { ...currentState, view: 'about', teamId: null };
             } else {
-                currentState = { view: 'home', teamId: null };
+                currentState = { ...currentState, view: 'home', teamId: null };
             }
             renderApp();
         }
@@ -375,7 +380,7 @@
                 window.location.hash = 'about';
             } else {
                 window.location.hash = '';
-                currentState = { view: 'home', teamId: null };
+                currentState = { ...currentState, view: 'home', teamId: null };
                 renderApp();
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -662,7 +667,7 @@
                             </div>
                         </div>
 
-                        <a href="${activeDoc.externalUrl}" onclick="handleExternalLink(event, '${activeDoc.externalUrl}', 'Tautan file PDF ${activeDoc.title} belum disematkan oleh panitia.')" target="_blank" class="shrink-0 px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 shadow-sm transition-colors">
+                        <a href="${activeDoc.externalUrl}" onclick="handleExternalLink(event, '${activeDoc.externalUrl}', 'Tautan file PDF ${activeDoc.title} belum disematkan oleh panitia.')" target="_blank" rel="noopener noreferrer" class="shrink-0 px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 shadow-sm transition-colors">
                             <i data-lucide="external-link" class="w-4 h-4"></i> Buka File PDF
                         </a>
                     </div>
@@ -704,16 +709,16 @@
             // Pratinjau File Naskah yang Dapat Di-scroll Langsung di Website
             const scriptScrollPreviewHtml = team.scriptDocEmbedUrl
                 ? `<div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-100">
-                       <iframe src="${team.scriptDocEmbedUrl}" class="w-full h-80 sm:h-96 bg-white" frameborder="0"></iframe>
+                       <iframe src="${team.scriptDocEmbedUrl}" title="Naskah ${team.name}" class="w-full h-80 sm:h-96 bg-white" frameborder="0"></iframe>
                    </div>`
                 : `<div class="h-72 sm:h-80 overflow-y-auto doc-scroll p-5 rounded-xl bg-slate-50 border border-slate-200 font-mono text-xs sm:text-sm text-slate-800 whitespace-pre-line leading-relaxed shadow-inner">
                        ${team.scriptFull}
                    </div>`;
 
-            // Pratinjau File Storyboard yang Dapat Di-scroll Langsung di Website (Tanpa Panel-panel)
+            // Pratinjau File Storyboard yang Dapat Di-scroll Langsung di Website
             const storyboardScrollPreviewHtml = team.storyboardPdfEmbedUrl
                 ? `<div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-100">
-                       <iframe src="${team.storyboardPdfEmbedUrl}" class="w-full h-[420px] sm:h-[540px] bg-white" frameborder="0"></iframe>
+                       <iframe src="${team.storyboardPdfEmbedUrl}" title="Storyboard ${team.name}" class="w-full h-[420px] sm:h-[540px] bg-white" frameborder="0"></iframe>
                    </div>`
                 : `<div class="h-80 sm:h-96 overflow-y-auto doc-scroll p-6 rounded-xl bg-slate-50 border border-slate-200 font-mono text-xs sm:text-sm text-slate-800 whitespace-pre-line leading-relaxed shadow-inner">
                        ${team.storyboardNotes}
@@ -764,7 +769,7 @@
                                 <span class="text-xs font-bold uppercase tracking-wider text-sky-600 block mb-1">Sinopsis & Pesan Utama</span>
                                 <p class="text-sm sm:text-base text-slate-700 leading-relaxed">${team.synopsis}</p>
                             </div>
-                            <a href="${team.videoExternalUrl}" onclick="handleExternalLink(event, '${team.videoExternalUrl}', 'Tautan video eksternal belum disematkan oleh panitia.')" target="_blank" class="shrink-0 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 border border-slate-200 transition-colors">
+                            <a href="${team.videoExternalUrl}" onclick="handleExternalLink(event, '${team.videoExternalUrl}', 'Tautan video eksternal belum disematkan oleh panitia.')" target="_blank" rel="noopener noreferrer" class="shrink-0 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 border border-slate-200 transition-colors">
                                 <i data-lucide="external-link" class="w-4 h-4 text-sky-600"></i> Tonton Tautan Video
                             </a>
                         </div>
@@ -795,7 +800,7 @@
                                 <button onclick="openScriptModal('${team.id}')" class="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-semibold text-xs sm:text-sm inline-flex items-center gap-2 shadow-sm transition-colors">
                                     <i data-lucide="maximize-2" class="w-4 h-4"></i> Baca Naskah Lengkap (Layar Penuh)
                                 </button>
-                                <a href="${team.scriptDocUrl}" onclick="handleExternalLink(event, '${team.scriptDocUrl}', 'File PDF/Google Docs naskah belum ditautkan oleh pengelola.')" target="_blank" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs sm:text-sm inline-flex items-center gap-2 border border-slate-200 transition-colors">
+                                <a href="${team.scriptDocUrl}" onclick="handleExternalLink(event, '${team.scriptDocUrl}', 'File PDF/Google Docs naskah belum ditautkan oleh pengelola.')" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs sm:text-sm inline-flex items-center gap-2 border border-slate-200 transition-colors">
                                     <i data-lucide="file-down" class="w-4 h-4 text-sky-600"></i> Buka File Naskah
                                 </a>
                             </div>
@@ -824,7 +829,7 @@
                         ${storyboardScrollPreviewHtml}
 
                         <div class="mt-4 flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100">
-                            <a href="${team.storyboardPdfUrl}" onclick="handleExternalLink(event, '${team.storyboardPdfUrl}', 'File PDF Storyboard belum ditautkan oleh pengelola.')" target="_blank" class="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-semibold text-xs sm:text-sm inline-flex items-center gap-2 shadow-sm transition-colors">
+                            <a href="${team.storyboardPdfUrl}" onclick="handleExternalLink(event, '${team.storyboardPdfUrl}', 'File PDF Storyboard belum ditautkan oleh pengelola.')" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-semibold text-xs sm:text-sm inline-flex items-center gap-2 shadow-sm transition-colors">
                                 <i data-lucide="external-link" class="w-4 h-4"></i> Buka Dokumen PDF Storyboard
                             </a>
                             <span class="text-[11px] text-slate-400">Storyboard_${team.name.replace(/\s+/g, '_')}.pdf</span>
@@ -928,7 +933,15 @@
 
             document.getElementById('modal-team-name').textContent = `TIM ${team.number} — ${team.name}`;
             document.getElementById('modal-script-title').textContent = `Naskah: “${team.title}”`;
-            document.getElementById('modal-script-body').textContent = team.scriptFull;
+            
+            const modalBody = document.getElementById('modal-script-body');
+            if (team.scriptDocEmbedUrl) {
+                modalBody.classList.remove('font-mono', 'whitespace-pre-line');
+                modalBody.innerHTML = `<iframe src="${team.scriptDocEmbedUrl}" title="Naskah ${team.name}" class="w-full h-[65vh] rounded-xl border border-slate-200 bg-slate-50" frameborder="0"></iframe>`;
+            } else {
+                modalBody.classList.add('font-mono', 'whitespace-pre-line');
+                modalBody.textContent = team.scriptFull || 'Dokumen naskah belum tersedia.';
+            }
 
             const docLink = document.getElementById('modal-doc-link');
             docLink.href = team.scriptDocUrl;
@@ -940,6 +953,7 @@
 
         function closeScriptModal() {
             document.getElementById('script-modal').classList.add('hidden');
+            document.getElementById('modal-script-body').innerHTML = '';
             document.body.style.overflow = '';
         }
 
@@ -947,7 +961,7 @@
             if (!url || url === '#') {
                 showToast('Video belum diunggah. Pengelola dapat menyematkan tautan embed YouTube/Drive pada data tim.');
             } else {
-                window.open(url, '_blank');
+                window.open(url, '_blank', 'noopener,noreferrer');
             }
         }
 
